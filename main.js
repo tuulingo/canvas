@@ -15,14 +15,14 @@ let deg2rad = (deg) => {
     for (let i = 0; i < 1; i++) {
       let x = Math.floor(el.width / 2);
       let y = Math.floor(el.height / 1.1);
-      let angle = Math.floor(Math.random() * -180);
-      orbs.push({ x: x, y: y, angle: angle });
+      let angle = Math.floor(Math.random() * 180);
+      orbs.push({ x: x, y: 600, angle: angle });
     }
 
     var player = {
       x:Math.floor(el.width / 2.2),
       y:Math.floor(el.height / 1.07),
-      speed: 3
+      speed: 2
     }
 
     function drawPlayer(x,y) {
@@ -77,19 +77,20 @@ let deg2rad = (deg) => {
         ctx.fillStyle = "black";
         ctx.fill();
         ctx.closePath();
+
+        let dist = Math.abs(orb.x - player.x - 200 / 2) 
+
         if (orb.x - 10 < 0 || orb.y - 10 < 0 || orb.x + 10 > el.width || orb.y + 10 > el.height) {
           orb.angle += 90;
           orb.angle %= 360;
         }
-
-        if (orb.x === player.x + 200)
+        if (orb.y + 10 > player.y && dist < 100)
         {
-          console.log("test")
+          orb.angle += 90;
+          orb.angle %= 360;
         }
         else{
-          console.log("gg");
         }
-        
       });
     }
 
