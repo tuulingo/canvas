@@ -12,38 +12,91 @@ let deg2rad = (deg) => {
     el.height = window.innerHeight;
     let ctx = el.getContext("2d");
     let orbs = [];
-    for (let i = 0; i < 500; i++) {
-      let x = Math.floor(Math.random() * el.width);
-      let y = Math.floor(Math.random() * el.height);
-      let angle = Math.floor(Math.random() * 360);
+    for (let i = 0; i < 1; i++) {
+      let x = Math.floor(el.width / 2);
+      let y = Math.floor(el.height / 1.1);
+      let angle = Math.floor(Math.random() * -180);
       orbs.push({ x: x, y: y, angle: angle });
     }
-    setInterval(() => {
-      ctx.clearRect(0, 0, el.width, el.height);
+
+    var player = {
+      x:Math.floor(el.width / 2.2),
+      y:Math.floor(el.height / 1.07),
+      speed: 3
+    }
+
+    function drawPlayer(x,y) {
+      var x = player.x;
+      var y = player.y;
+      ctx.fillStyle = "#00FF";
+      ctx.beginPath();
+      ctx.moveTo(player.x,player.y);
+      ctx.fillRect(x, y, 200, 20);
+      ctx.strokeRect(x, y, 200, 20);
+      ctx.fill();
+      if(player.x < 0)
+      {
+        LEFT = false;
+      }
+      
+      if(player.x + 200 > el.width)
+      {
+        RIGHT = false;
+      }
+      ctx.closePath();
+    }
+
+    var LEFT = false; 
+    var RIGHT = false;
+    
+    function move() {    
+      if(LEFT) { 
+        player.x -= player.speed;
+      }
+      if(RIGHT) {
+        player.x += player.speed;	
+      }   
+    }
+    
+    document.onkeydown = function(e) {
+      if(e.keyCode == 37) LEFT = true;
+      if(e.keyCode == 39) RIGHT = true;
+    }
+    
+    document.onkeyup = function(e) {
+      if(e.keyCode == 37) LEFT = false;
+      if(e.keyCode == 39) RIGHT = false;
+    }
+
+    function loadOrb() {
       orbs.forEach((orb) => {
         ctx.beginPath();
-        ctx.arc(orb.x, orb.y, 2, 0, 2 * Math.PI);
+        ctx.arc(orb.x, orb.y, 10, 5, 10 * Math.PI);
         orb.x += Math.cos(deg2rad(orb.angle))/3;
         orb.y += Math.sin(deg2rad(orb.angle));
         ctx.fillStyle = "black";
         ctx.fill();
         ctx.closePath();
-        if (orb.x < 0 || orb.y < 0 || orb.x > el.width || orb.y > el.height) {
+        if (orb.x - 10 < 0 || orb.y - 10 < 0 || orb.x + 10 > el.width || orb.y + 10 > el.height) {
           orb.angle += 90;
           orb.angle %= 360;
         }
-        orbs.forEach((other)=> {
-            let dist = Math.sqrt(Math.pow(orb.x - other.x, 2) + Math.pow(orb.y - other.y, 2));
-            if(dist < 150){
-                ctx.beginPath();
-                ctx.moveTo(orb.x, orb.y);
-                ctx.lineTo(other.x, other.y);
-                ctx.strokeStyle = 'black';
-                ctx.stroke();
-                ctx.closePath();
 
-            }
-        })
+        if (orb.x === player.x + 200)
+        {
+          console.log("test")
+        }
+        else{
+          console.log("gg");
+        }
+        
       });
-    }, 16);
+    }
+
+    setInterval(() => {
+      ctx.clearRect(0, 0, el.width, el.height);
+      loadOrb();
+      drawPlayer();
+      move();
+    }, 2);
   });
