@@ -24,8 +24,29 @@ window.addEventListener("load", () => {
   let row1 = [13];
   for (let i = 0; i < 13; i++) {
     let x = 130 * i;
-    let y = Math.floor(el.height / 8);
+    let y = Math.floor(el.height / 10);
     row1.push({ x: x + 100, y: y, width: 125, height: 75, color:colors[Math.floor(Math.random() * colors.length)] });
+  }
+
+  let row2 = [13];
+  for (let i = 0; i < 13; i++) {
+    let x = 130 * i;
+    let y = Math.floor(el.height / 5.5);
+    row2.push({ x: x + 100, y: y, width: 125, height: 75, color:colors[Math.floor(Math.random() * colors.length)] });
+  }
+
+  let row3 = [13];
+  for (let i = 0; i < 13; i++) {
+    let x = 130 * i;
+    let y = Math.floor(el.height / 3.77);
+    row3.push({ x: x + 100, y: y, width: 125, height: 75, color:colors[Math.floor(Math.random() * colors.length)] });
+  }
+
+  let row4 = [13];
+  for (let i = 0; i < 13; i++) {
+    let x = 130 * i;
+    let y = Math.floor(el.height / 2.86);
+    row4.push({ x: x + 100, y: y, width: 125, height: 75, color:colors[Math.floor(Math.random() * colors.length)] });
   }
 
   function createBlocks() {
@@ -36,7 +57,32 @@ window.addEventListener("load", () => {
       ctx.fill();
       ctx.closePath();
     });
+
+    row2.forEach((block) => {
+      ctx.beginPath();
+      ctx.fillRect(block.x, block.y, 125, 75);
+      ctx.fillStyle = colors[3];
+      ctx.fill();
+      ctx.closePath();
+    });
+
+    row3.forEach((block) => {
+      ctx.beginPath();
+      ctx.fillRect(block.x, block.y, 125, 75);
+      ctx.fillStyle = colors[2];
+      ctx.fill();
+      ctx.closePath();
+    });
+
+    row4.forEach((block) => {
+      ctx.beginPath();
+      ctx.fillRect(block.x, block.y, 125, 75);
+      ctx.fillStyle = colors[1];
+      ctx.fill();
+      ctx.closePath();
+    });
   }
+  
 
   var player = {
     x: Math.floor(el.width / 2.2),
@@ -122,6 +168,85 @@ window.addEventListener("load", () => {
           {
             orb.angle = 360 - orb.angle;
             row1.splice(i, 1);
+            ctx.beginPath();
+            console.log(row)
+            console.log(distBlockBallx)
+            ctx.closePath();
+          }
+        }  
+      }
+
+      for (var i = 0; i < row2.length; i++) {
+        var row = row2[i];
+        let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
+        let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
+        if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
+          if (distBlockBally < 37.5 + 6 )
+          {
+            orb.angle = 180 - orb.angle;
+            row2.splice(i, 1);
+            ctx.beginPath();
+            console.log(row)
+            console.log(distBlockBally)
+            ctx.closePath();
+          }
+          else
+          {
+            orb.angle = 360 - orb.angle;
+            row2.splice(i, 1);
+            ctx.beginPath();
+            console.log(row)
+            console.log(distBlockBallx)
+            ctx.closePath();
+          }
+        }  
+      }
+
+      
+      for (var i = 0; i < row3.length; i++) {
+        var row = row3[i];
+        let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
+        let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
+        if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
+          if (distBlockBally < 37.5 + 6 )
+          {
+            orb.angle = 180 - orb.angle;
+            row3.splice(i, 1);
+            ctx.beginPath();
+            console.log(row)
+            console.log(distBlockBally)
+            ctx.closePath();
+          }
+          else
+          {
+            orb.angle = 360 - orb.angle;
+            row3.splice(i, 1);
+            ctx.beginPath();
+            console.log(row)
+            console.log(distBlockBallx)
+            ctx.closePath();
+          }
+        }  
+      }
+
+      for (var i = 0; i < row4.length; i++) {
+        var row = row4[i];
+        let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
+        let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
+        if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
+          if (distBlockBally < 37.5 + 6 )
+          {
+            orb.angle = 180 - orb.angle;
+            row4.splice(i, 1);
+            ctx.beginPath();
+            console.log(row)
+            console.log(distBlockBally)
+            ctx.closePath();
+          }
+          else
+          {
+            orb.angle = 360 - orb.angle;
+            row4.splice(i, 1);
             ctx.beginPath();
             console.log(row)
             console.log(distBlockBallx)
