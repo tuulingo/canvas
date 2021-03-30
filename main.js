@@ -29,18 +29,10 @@ window.addEventListener("load", () => {
   }
 
   function createBlocks() {
-    // for (var i = 0; i < row1.length; i++) {
-    //   var row = row1[i];
-    //   ctx.beginPath();
-    //   ctx.rect(row.x + 50, row.y, row.width, row.height);
-    //   ctx.fillStyle = row.color;
-    //   ctx.fill();
-    //   ctx.stroke();
-    // }
     row1.forEach((block) => {
       ctx.beginPath();
       ctx.fillRect(block.x, block.y, 125, 75);
-      ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+      ctx.fillStyle = colors[4];
       ctx.fill();
       ctx.closePath();
     });
@@ -112,57 +104,37 @@ window.addEventListener("load", () => {
       {
         orb.angle -= 90;
       }
-
       for (var i = 0; i < row1.length; i++) {
         var row = row1[i];
-        let distBlockBall = Math.abs(orb.x - row.x - 125 / 2)
-        if (orb.y - 80 < row.y && distBlockBall < 62.5) {
-          orb.angle -= 90;
-          row1.splice(i, 1);
-          ctx.beginPath();
-          console.log(row)
+        let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
+        let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
+        if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
+          if (distBlockBally < 37.5 + 6 )
+          {
+            orb.angle = 180 - orb.angle;
+            row1.splice(i, 1);
+            ctx.beginPath();
+            console.log(row)
+            console.log(distBlockBally)
+            ctx.closePath();
+          }
+          else
+          {
+            orb.angle = 360 - orb.angle;
+            row1.splice(i, 1);
+            ctx.beginPath();
+            console.log(row)
+            console.log(distBlockBallx)
+            ctx.closePath();
+          }
         }  
       }
-
-      // row1.forEach((block) => {
-      //   let distBlockBall = Math.abs(orb.x - block.x - 125 / 2)
-      //   if (orb.y - 80 < block.y && distBlockBall < 62.5) {
-      //     orb.angle += 90;
-      //     orb.angle %= 360;
-      //     ctx.clearRect(block.x, block.y, 125, 75);
-      //     ctx.beginPath();
-      //   }  
-      // })
 
       if (orb.y > player.y) {
         console.log("gg")
       }
     });
-  }
-
-  function ballAndBlocksColliding(circle, rect) {
-    var distX = Math.abs(circle.x - rect.x - rect.w / 2);
-    var distY = Math.abs(circle.y - rect.y - rect.h / 2);
-
-    if (distX > (rect.w / 2 + circle.r)) {
-        return false;
-    }
-    if (distY > (rect.h / 2 + circle.r)) {
-        return false;
-    }
-
-    if (distX <= (rect.w / 2)) {
-        return true;
-    }
-    if (distY <= (rect.h / 2)) {
-        return true;
-    }
-
-    var dx = distX - rect.w / 2;
-    var dy = distY - rect.h / 2;
-    return (dx * dx + dy * dy <= (circle.r * circle.r));
-}
-    
+  }    
 
   setInterval(() => {
     ctx.clearRect(0, 0, el.width, el.height);
