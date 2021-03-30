@@ -1,11 +1,10 @@
 body, html {
-    background-color: #EEB8FE !important;
+    background-color: #000000 !important;
     margin: 0;
     overflow: hidden;
 }
 #canvas {
     box-sizing: border-box;
-    border: 1px solid black;
     height: 100vh;
     width: 100vw;
 }
