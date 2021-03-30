@@ -16,7 +16,7 @@ window.addEventListener("load", () => {
     let x = Math.floor(el.width / 2);
     let y = Math.floor(el.height / 1.1);
     let angle = Math.floor(Math.random() * -180);
-    orbs.push({ x: x, y: 200, angle: angle });
+    orbs.push({ x: x, y: y, angle: angle });
   }
 
   var colors = ["blue", "green", "yellow", "orange", "red"]
@@ -118,8 +118,9 @@ window.addEventListener("load", () => {
         let distBlockBall = Math.abs(orb.x - row.x - 125 / 2)
         if (orb.y - 80 < row.y && distBlockBall < 62.5) {
           orb.angle -= 90;
-          ctx.clearRect(row.x, row.y, 125, 75);
-          context.beginPath();
+          row1.splice(i, 1);
+          ctx.beginPath();
+          console.log(row)
         }  
       }
 
@@ -129,7 +130,7 @@ window.addEventListener("load", () => {
       //     orb.angle += 90;
       //     orb.angle %= 360;
       //     ctx.clearRect(block.x, block.y, 125, 75);
-      //     context.beginPath();
+      //     ctx.beginPath();
       //   }  
       // })
 
@@ -161,6 +162,7 @@ window.addEventListener("load", () => {
     var dy = distY - rect.h / 2;
     return (dx * dx + dy * dy <= (circle.r * circle.r));
 }
+    
 
   setInterval(() => {
     ctx.clearRect(0, 0, el.width, el.height);
@@ -169,6 +171,6 @@ window.addEventListener("load", () => {
     move();
     createBlocks();
 
-  }, 500);
+  }, 2);
 
 });
