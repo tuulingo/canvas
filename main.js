@@ -135,8 +135,8 @@ window.addEventListener("load", () => {
     orbs.forEach((orb) => {
       ctx.beginPath();
       ctx.arc(orb.x, orb.y, 7, 5, 7 * Math.PI);
-      orb.x += Math.cos(deg2rad(orb.angle)) / 3;
-      orb.y += Math.sin(deg2rad(orb.angle));
+      orb.x += Math.cos(deg2rad(orb.angle)) * 3;
+      orb.y += Math.sin(deg2rad(orb.angle)) ;
       ctx.fillStyle = "gray";
       ctx.fill();
       ctx.closePath();
@@ -160,8 +160,6 @@ window.addEventListener("load", () => {
             orb.angle = 180 - orb.angle;
             row1.splice(i, 1);
             ctx.beginPath();
-            console.log(row)
-            console.log(distBlockBally)
             ctx.closePath();
           }
           else
@@ -169,8 +167,6 @@ window.addEventListener("load", () => {
             orb.angle = 360 - orb.angle;
             row1.splice(i, 1);
             ctx.beginPath();
-            console.log(row)
-            console.log(distBlockBallx)
             ctx.closePath();
           }
         }  
@@ -186,8 +182,6 @@ window.addEventListener("load", () => {
             orb.angle = 180 - orb.angle;
             row2.splice(i, 1);
             ctx.beginPath();
-            console.log(row)
-            console.log(distBlockBally)
             ctx.closePath();
           }
           else
@@ -195,8 +189,6 @@ window.addEventListener("load", () => {
             orb.angle = 360 - orb.angle;
             row2.splice(i, 1);
             ctx.beginPath();
-            console.log(row)
-            console.log(distBlockBallx)
             ctx.closePath();
           }
         }  
@@ -213,8 +205,6 @@ window.addEventListener("load", () => {
             orb.angle = 180 - orb.angle;
             row3.splice(i, 1);
             ctx.beginPath();
-            console.log(row)
-            console.log(distBlockBally)
             ctx.closePath();
           }
           else
@@ -222,8 +212,6 @@ window.addEventListener("load", () => {
             orb.angle = 360 - orb.angle;
             row3.splice(i, 1);
             ctx.beginPath();
-            console.log(row)
-            console.log(distBlockBallx)
             ctx.closePath();
           }
         }  
@@ -239,8 +227,6 @@ window.addEventListener("load", () => {
             orb.angle = 180 - orb.angle;
             row4.splice(i, 1);
             ctx.beginPath();
-            console.log(row)
-            console.log(distBlockBally)
             ctx.closePath();
           }
           else
@@ -248,26 +234,33 @@ window.addEventListener("load", () => {
             orb.angle = 360 - orb.angle;
             row4.splice(i, 1);
             ctx.beginPath();
-            console.log(row)
-            console.log(distBlockBallx)
             ctx.closePath();
           }
         }  
       }
 
-      if (orb.y > player.y) {
-        console.log("gg")
+      if (orb.y- 20 > player.y) {
+        return gameOver = true;
       }
     });
   }    
 
-  setInterval(() => {
-    ctx.clearRect(0, 0, el.width, el.height);
-    loadOrb();
-    drawPlayer();
-    move();
-    createBlocks();
+  let gameOver = false
 
-  }, 2);
 
+    setInterval(() => {
+      if (gameOver != true)
+      {
+      ctx.clearRect(0, 0, el.width, el.height);
+      loadOrb();
+      drawPlayer();
+      move();
+      createBlocks();
+      }
+      else 
+      alert("gg")
+      clearInterval();
+
+  
+    }, 1);
 });
