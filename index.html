@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
-    <canvas id="canvas">
-    </canvas>
+    <div id="container">
+        <canvas id="canvas">
+        </canvas>
+        <div class="text-typing" id="gameOver">
+            <p style="color: blueviolet; width: 500px; font-size: 350%; font-family: 'MyWebFont';">GAME OVER :(&nbsp;</p>
+            <button id="playAgainBtn" onclick="window.location.reload()">Play again</button>
+        </div>
+    </div>
 
     <script src="./main.js"></script>
 </body>
+
 </html>
