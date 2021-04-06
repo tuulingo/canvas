@@ -20,7 +20,7 @@ function WholeGame() {
       let x = Math.floor(el.width / 2);
       let y = Math.floor(el.height / 1.1);
       let angle = Math.floor(Math.random() * -180);
-      orbs.push({ x: x, y: 10, angle: angle });
+      orbs.push({ x: x, y: y, angle: angle });
     }
 
     var colors = ["blue", "green", "yellow", "orange", "red"]
@@ -154,7 +154,7 @@ function WholeGame() {
             }
             else {
               orb.angle = 360 - orb.angle;
-              row1.splice(1, 13);
+              row1.splice(i, 1);
             }
           }
         }
@@ -170,7 +170,7 @@ function WholeGame() {
             }
             else {
               orb.angle = 360 - orb.angle;
-              row2.splice(1, 13);
+              row2.splice(i, 1);
             }
           }
         }
@@ -187,7 +187,7 @@ function WholeGame() {
             }
             else {
               orb.angle = 360 - orb.angle;
-              row3.splice(1, 13);
+              row3.splice(i, 1);
             }
           }
         }
@@ -203,7 +203,7 @@ function WholeGame() {
             }
             else {
               orb.angle = 360 - orb.angle;
-              row4.splice(1, 13);
+              row4.splice(i, 1);
             }
           }
         }
