@@ -12,22 +12,34 @@ body, html {
 }
 #container {
     position: relative;
+    min-width: 100%;
   }
-#container, #gameOver {
+#container, #gameOver, #gameWon {
     position: absolute;
 }
 #gameOver {
-    margin-left: 526px;
-    display:none;
-    background-color: black;
+  left: 30%;
+  display:none;
+  background-color: black;
 }
-#playAgainBtn{
+#gameWon {
+  margin-left: 30%;
+  display:none;
+  background-color: black;
+}
+#playAgainLost{
     animation: cssAnimation 0s 2.5s forwards;
     visibility: hidden; 
     margin-top: 50px;
-    margin-left: 275px;
-    width: 300px;
-    background-color: rgb(145, 24, 24);
+    margin-left: 25%;
+    width: 40%;
+  }
+#playAgainWon{
+    animation: cssAnimation 0s 2.5s forwards;
+    visibility: hidden; 
+    margin-top: 50px;
+    margin-left: 25%;
+    width: 40%;
   }
   
   @keyframes cssAnimation {
@@ -45,7 +57,7 @@ body, html {
     margin:0px;
     white-space:nowrap;
     overflow:hidden;
-    animation:typing 2s steps(16,end) forwards,
+    animation:typing 2s steps(11,end) forwards,
               blink 0.5s infinite;
   }
   @keyframes typing {

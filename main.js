@@ -1,14 +1,15 @@
- WholeGame();
- function WholeGame() {
-  console.log("ok")
+WholeGame();
+function WholeGame() {
+  let gameOver = false;
+  let gameWon = false;
   let deg2rad = (deg) => {
     return deg * (Math.PI / 180);
   };
-  
+
   let rad2deg = (rad) => {
     return rad * (180 / Math.PI);
   };
-  
+
   window.addEventListener("load", () => {
     let el = document.querySelector("#canvas");
     el.width = window.innerWidth;
@@ -19,39 +20,29 @@
       let x = Math.floor(el.width / 2);
       let y = Math.floor(el.height / 1.1);
       let angle = Math.floor(Math.random() * -180);
-      orbs.push({ x: x, y: y, angle: angle });
+      orbs.push({ x: x, y: 10, angle: angle });
     }
-  
+
     var colors = ["blue", "green", "yellow", "orange", "red"]
-  
+
     let row1 = [13];
+    let row2 = [13];
+    let row3 = [13];
+    let row4 = [13];
+
     for (let i = 0; i < 13; i++) {
       let x = 130 * i;
       let y = Math.floor(el.height / 10);
-      row1.push({ x: x + 100, y: y, width: 125, height: 75, color:colors[Math.floor(Math.random() * colors.length)] });
+      let y2 = Math.floor(el.height / 5.5);
+      let y3 = Math.floor(el.height / 3.77);
+      let y4 = Math.floor(el.height / 2.86);
+
+      row1.push({ x: x + 100, y: y, width: 125, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
+      row2.push({ x: x + 100, y: y2, width: 125, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
+      row3.push({ x: x + 100, y: y3, width: 125, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
+      row4.push({ x: x + 100, y: y4, width: 125, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
     }
-  
-    let row2 = [13];
-    for (let i = 0; i < 13; i++) {
-      let x = 130 * i;
-      let y = Math.floor(el.height / 5.5);
-      row2.push({ x: x + 100, y: y, width: 125, height: 75, color:colors[Math.floor(Math.random() * colors.length)] });
-    }
-  
-    let row3 = [13];
-    for (let i = 0; i < 13; i++) {
-      let x = 130 * i;
-      let y = Math.floor(el.height / 3.77);
-      row3.push({ x: x + 100, y: y, width: 125, height: 75, color:colors[Math.floor(Math.random() * colors.length)] });
-    }
-  
-    let row4 = [13];
-    for (let i = 0; i < 13; i++) {
-      let x = 130 * i;
-      let y = Math.floor(el.height / 2.86);
-      row4.push({ x: x + 100, y: y, width: 125, height: 75, color:colors[Math.floor(Math.random() * colors.length)] });
-    }
-  
+
     function createBlocks() {
       row1.forEach((block) => {
         ctx.beginPath();
@@ -60,7 +51,7 @@
         ctx.fill();
         ctx.closePath();
       });
-  
+
       row2.forEach((block) => {
         ctx.beginPath();
         ctx.fillRect(block.x, block.y, 125, 75);
@@ -68,7 +59,7 @@
         ctx.fill();
         ctx.closePath();
       });
-  
+
       row3.forEach((block) => {
         ctx.beginPath();
         ctx.fillRect(block.x, block.y, 125, 75);
@@ -76,7 +67,7 @@
         ctx.fill();
         ctx.closePath();
       });
-  
+
       row4.forEach((block) => {
         ctx.beginPath();
         ctx.fillRect(block.x, block.y, 125, 75);
@@ -85,14 +76,14 @@
         ctx.closePath();
       });
     }
-    
-  
+
+
     var player = {
       x: Math.floor(el.width / 2.2),
       y: Math.floor(el.height / 1.07),
       speed: 2
     }
-  
+
     function drawPlayer(x, y) {
       var x = player.x;
       var y = player.y;
@@ -105,16 +96,16 @@
       if (player.x < 0) {
         LEFT = false;
       }
-  
+
       if (player.x + 200 > el.width) {
         RIGHT = false;
       }
       ctx.closePath();
     }
-  
+
     var LEFT = false;
     var RIGHT = false;
-  
+
     function move() {
       if (LEFT) {
         player.x -= player.speed;
@@ -123,17 +114,17 @@
         player.x += player.speed;
       }
     }
-  
+
     document.onkeydown = function (e) {
       if (e.keyCode == 37) LEFT = true;
       if (e.keyCode == 39) RIGHT = true;
     }
-  
+
     document.onkeyup = function (e) {
       if (e.keyCode == 37) LEFT = false;
       if (e.keyCode == 39) RIGHT = false;
     }
-  
+
     function loadOrb() {
       orbs.forEach((orb) => {
         ctx.beginPath();
@@ -143,135 +134,114 @@
         ctx.fillStyle = "gray";
         ctx.fill();
         ctx.closePath();
-  
-        let distPlayer = Math.abs(orb.x - player.x - 200 / 2) 
-  
+
+        let distPlayer = Math.abs(orb.x - player.x - 200 / 2)
+
         if (orb.x - 5 < 0 || orb.x + 5 > el.width) orb.angle = 180 - orb.angle;
         if (orb.y - 5 < 0 || orb.y + 5 > el.height) orb.angle = 360 - orb.angle;
-  
-        if (orb.y + 5 > player.y && distPlayer < 100)
-        {
-          orb.angle -= 90;
+
+        if (orb.y + 5 > player.y && distPlayer < 100) {
+          orb.angle = 360 - orb.angle;
         }
         for (var i = 0; i < row1.length; i++) {
           var row = row1[i];
           let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
           let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
           if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
-            if (distBlockBally < 37.5 + 6 )
-            {
+            if (distBlockBally < 37.5) {
               orb.angle = 180 - orb.angle;
               row1.splice(i, 1);
-              ctx.beginPath();
-              ctx.closePath();
             }
-            else
-            {
+            else {
               orb.angle = 360 - orb.angle;
-              row1.splice(i, 1);
-              ctx.beginPath();
-              ctx.closePath();
+              row1.splice(1, 13);
             }
-          }  
+          }
         }
-  
+
         for (var i = 0; i < row2.length; i++) {
           var row = row2[i];
           let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
           let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
           if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
-            if (distBlockBally < 37.5 + 6 )
-            {
+            if (distBlockBally < 37.5) {
               orb.angle = 180 - orb.angle;
               row2.splice(i, 1);
-              ctx.beginPath();
-              ctx.closePath();
             }
-            else
-            {
+            else {
               orb.angle = 360 - orb.angle;
-              row2.splice(i, 1);
-              ctx.beginPath();
-              ctx.closePath();
+              row2.splice(1, 13);
             }
-          }  
+          }
         }
-  
-        
+
+
         for (var i = 0; i < row3.length; i++) {
           var row = row3[i];
           let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
           let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
           if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
-            if (distBlockBally < 37.5 + 6 )
-            {
+            if (distBlockBally < 37.5) {
               orb.angle = 180 - orb.angle;
               row3.splice(i, 1);
-              ctx.beginPath();
-              ctx.closePath();
             }
-            else
-            {
+            else {
               orb.angle = 360 - orb.angle;
-              row3.splice(i, 1);
-              ctx.beginPath();
-              ctx.closePath();
+              row3.splice(1, 13);
             }
-          }  
+          }
         }
-  
+
         for (var i = 0; i < row4.length; i++) {
           var row = row4[i];
           let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
           let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
           if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
-            if (distBlockBally < 37.5 + 6 )
-            {
+            if (distBlockBally < 37.5) {
               orb.angle = 180 - orb.angle;
               row4.splice(i, 1);
-              ctx.beginPath();
-              ctx.closePath();
             }
-            else
-            {
+            else {
               orb.angle = 360 - orb.angle;
-              row4.splice(i, 1);
-              ctx.beginPath();
-              ctx.closePath();
+              row4.splice(1, 13);
             }
-          }  
+          }
         }
-  
-        if (orb.y- 20 > player.y) {
+
+        if (orb.y - 20 > player.y) {
           return gameOver = true;
         }
-      });
-    }    
-  
-    let gameOver = false
-  
-  
-      setInterval(() => {
-        if (gameOver != true)
+
+        if (row1.length + row2.length + row3.length + row4.length == 4)
         {
+          return gameWon = true;
+        }
+      });
+    }
+
+    setInterval(() => {
+      if (gameWon == true)
+      {
+        document.getElementById("gameWon").style.display = "block";
+        document.getElementById("playAgainWon").style.backgroundColor = "rgb(3, 197, 3)";
+        clearInterval();
+      }
+      else if (gameOver != true) {
         ctx.clearRect(0, 0, el.width, el.height);
         loadOrb();
         drawPlayer();
         move();
         createBlocks();
-        }
-        else
-        {
-          ctx.clearRect(0, 0, el.width, el.height);
-          var gameDiv = document.getElementById("gameOver");
-          var againBtn = document.getElementById("playAgainBtn");
-          gameDiv.style.display = "block";
-          setTimeout(againBtn.style.display = "block", 5000);
-          clearInterval();
-        } 
-  
-    
-      }, 1);
+      }
+      else {
+        ctx.clearRect(0, 0, el.width, el.height);
+        document.getElementById("gameOver").style.display = "block";
+        document.getElementById("playAgainLost").style.backgroundColor = "rgb(145, 24, 24)";
+        clearInterval();
+      }
+
+
+    }, 1);
   });
 };
 
