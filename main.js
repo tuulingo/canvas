@@ -141,6 +141,15 @@ function WholeGame() {
         if (orb.y - 5 < 0 || orb.y + 5 > el.height) orb.angle = 360 - orb.angle;
 
         if (orb.y + 5 > player.y && distPlayer < 100) {
+          if(LEFT)
+          {
+            orb.angle = 20 - orb.angle;
+          }
+          else if(RIGHT)
+          {
+          orb.angle = 340 - orb.angle;
+          }
+          else
           orb.angle = 360 - orb.angle;
         }
         for (var i = 0; i < row1.length; i++) {
