@@ -1,8 +1,16 @@
 body, html {
     background-color: #000000 !important;
-    margin: 0;
     overflow: hidden;
 }
+
+.fullscreen {
+  display: flex;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
 #canvas {
     box-sizing: border-box;
     height: 100vh;
@@ -13,6 +21,7 @@ body, html {
 #container {
     position: relative;
     min-width: 100%;
+    margin: auto;
   }
 #container, #gameOver, #gameWon {
     position: absolute;

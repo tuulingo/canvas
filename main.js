@@ -1,13 +1,25 @@
+window.onload = () => {
+  'use strict';
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').then(function(registration) {
+        // Registration was successful
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }, function(err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+}
+
 WholeGame();
 function WholeGame() {
   let gameOver = false;
   let gameWon = false;
   let deg2rad = (deg) => {
     return deg * (Math.PI / 180);
-  };
-
-  let rad2deg = (rad) => {
-    return rad * (180 / Math.PI);
   };
 
   window.addEventListener("load", () => {
@@ -19,7 +31,7 @@ function WholeGame() {
     for (let i = 0; i < 1; i++) {
       let x = Math.floor(el.width / 2);
       let y = Math.floor(el.height / 1.1);
-      let angle = Math.floor(Math.random() * -180);
+      let angle = Math.floor(Math.random() * (-135 + 45 - 1) - 45);
       orbs.push({ x: x, y: y, angle: angle });
     }
 
@@ -30,6 +42,10 @@ function WholeGame() {
     let row3 = [13];
     let row4 = [13];
 
+    var blockWidth = Math.floor(el.width / 15.36);
+
+    console.log(el.width + "<--laius" + "---> pikkus" + el.height);
+
     for (let i = 0; i < 13; i++) {
       let x = 130 * i;
       let y = Math.floor(el.height / 10);
@@ -37,10 +53,10 @@ function WholeGame() {
       let y3 = Math.floor(el.height / 3.77);
       let y4 = Math.floor(el.height / 2.86);
 
-      row1.push({ x: x + 100, y: y, width: 125, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
-      row2.push({ x: x + 100, y: y2, width: 125, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
-      row3.push({ x: x + 100, y: y3, width: 125, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
-      row4.push({ x: x + 100, y: y4, width: 125, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
+      row1.push({ x: x + 100, y: y, width: blockWidth, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
+      row2.push({ x: x + 100, y: y2, width: blockWidth, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
+      row3.push({ x: x + 100, y: y3, width: blockWidth, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
+      row4.push({ x: x + 100, y: y4, width: blockWidth, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
     }
 
     function createBlocks() {
@@ -144,10 +160,12 @@ function WholeGame() {
           if(LEFT)
           {
             orb.angle = 20 - orb.angle;
+            orb.angle %= 360;
           }
           else if(RIGHT)
           {
           orb.angle = 340 - orb.angle;
+          orb.angle %= 360;
           }
           else
           orb.angle = 360 - orb.angle;
