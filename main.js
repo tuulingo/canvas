@@ -43,26 +43,28 @@ function WholeGame() {
     let row4 = [13];
 
     var blockWidth = Math.floor(el.width / 15.36);
+    var blockHeight = Math.floor(el.height / 12.49);
 
-    console.log(el.width + "<--laius" + "---> pikkus" + el.height);
+    console.log(Math.floor(el.width / 15.36));
 
     for (let i = 0; i < 13; i++) {
-      let x = 130 * i;
+      let x = (blockWidth + 5) * i;
       let y = Math.floor(el.height / 10);
       let y2 = Math.floor(el.height / 5.5);
       let y3 = Math.floor(el.height / 3.77);
       let y4 = Math.floor(el.height / 2.86);
+      console.log(x + "   "+ i);
 
-      row1.push({ x: x + 100, y: y, width: blockWidth, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
-      row2.push({ x: x + 100, y: y2, width: blockWidth, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
-      row3.push({ x: x + 100, y: y3, width: blockWidth, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
-      row4.push({ x: x + 100, y: y4, width: blockWidth, height: 75, color: colors[Math.floor(Math.random() * colors.length)] });
+      row1.push({ x: x + Math.floor(el.width / 18), y: y, width: blockWidth, height: blockHeight, color: colors[Math.floor(Math.random() * colors.length)] });
+      row2.push({ x: x + Math.floor(el.width / 18), y: y2, width: blockWidth, height: blockHeight, color: colors[Math.floor(Math.random() * colors.length)] });
+      row3.push({ x: x + Math.floor(el.width / 18), y: y3, width: blockWidth, height: blockHeight, color: colors[Math.floor(Math.random() * colors.length)] });
+      row4.push({ x: x + Math.floor(el.width / 18), y: y4, width: blockWidth, height: blockHeight, color: colors[Math.floor(Math.random() * colors.length)] });
     }
 
     function createBlocks() {
       row1.forEach((block) => {
         ctx.beginPath();
-        ctx.fillRect(block.x, block.y, 125, 75);
+        ctx.fillRect(block.x, block.y, blockWidth, blockHeight);
         ctx.fillStyle = colors[4];
         ctx.fill();
         ctx.closePath();
@@ -70,7 +72,7 @@ function WholeGame() {
 
       row2.forEach((block) => {
         ctx.beginPath();
-        ctx.fillRect(block.x, block.y, 125, 75);
+        ctx.fillRect(block.x, block.y, blockWidth, blockHeight);
         ctx.fillStyle = colors[3];
         ctx.fill();
         ctx.closePath();
@@ -78,7 +80,7 @@ function WholeGame() {
 
       row3.forEach((block) => {
         ctx.beginPath();
-        ctx.fillRect(block.x, block.y, 125, 75);
+        ctx.fillRect(block.x, block.y, blockWidth, blockHeight);
         ctx.fillStyle = colors[2];
         ctx.fill();
         ctx.closePath();
@@ -86,13 +88,12 @@ function WholeGame() {
 
       row4.forEach((block) => {
         ctx.beginPath();
-        ctx.fillRect(block.x, block.y, 125, 75);
+        ctx.fillRect(block.x, block.y, blockWidth, blockHeight);
         ctx.fillStyle = colors[1];
         ctx.fill();
         ctx.closePath();
       });
     }
-
 
     var player = {
       x: Math.floor(el.width / 2.2),
@@ -100,20 +101,22 @@ function WholeGame() {
       speed: 2
     }
 
+    var playerSizeX = Math.floor(el.width / 9.6)
+    var playerSizeY = Math.floor(el.height / 46.85)
     function drawPlayer(x, y) {
       var x = player.x;
       var y = player.y;
       ctx.fillStyle = "#0000FF";
       ctx.beginPath();
       ctx.moveTo(player.x, player.y);
-      ctx.fillRect(x, y, 200, 20);
-      ctx.strokeRect(x, y, 200, 20);
+      ctx.fillRect(x, y, playerSizeX, playerSizeY);
+      ctx.strokeRect(x, y, playerSizeX, playerSizeY);
       ctx.fill();
       if (player.x < 0) {
         LEFT = false;
       }
 
-      if (player.x + 200 > el.width) {
+      if (player.x + Math.floor(el.width / 9.6) > el.width) {
         RIGHT = false;
       }
       ctx.closePath();
@@ -141,22 +144,23 @@ function WholeGame() {
       if (e.keyCode == 39) RIGHT = false;
     }
 
+    var ballSize = Math.floor(el.height / 150)
     function loadOrb() {
       orbs.forEach((orb) => {
         ctx.beginPath();
-        ctx.arc(orb.x, orb.y, 7, 5, 7 * Math.PI);
+        ctx.arc(orb.x, orb.y, ballSize, 5, ballSize * Math.PI);
         orb.x += Math.cos(deg2rad(orb.angle)) * 3;
         orb.y += Math.sin(deg2rad(orb.angle)) * 2;
         ctx.fillStyle = "gray";
         ctx.fill();
         ctx.closePath();
 
-        let distPlayer = Math.abs(orb.x - player.x - 200 / 2)
+        let distPlayer = Math.abs(orb.x - player.x - playerSizeX / 2)
 
         if (orb.x - 5 < 0 || orb.x + 5 > el.width) orb.angle = 180 - orb.angle;
         if (orb.y - 5 < 0 || orb.y + 5 > el.height) orb.angle = 360 - orb.angle;
 
-        if (orb.y + 5 > player.y && distPlayer < 100) {
+        if (orb.y + 5 > player.y && distPlayer < playerSizeX / 2) {
           if(LEFT)
           {
             orb.angle = 20 - orb.angle;
@@ -172,10 +176,10 @@ function WholeGame() {
         }
         for (var i = 0; i < row1.length; i++) {
           var row = row1[i];
-          let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
-          let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
-          if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
-            if (distBlockBally < 37.5) {
+          let distBlockBallx = Math.abs(orb.x - row.x - blockWidth / 2)
+          let distBlockBally = Math.abs(orb.y - row.y - blockHeight / 2)
+          if (distBlockBally < blockHeight / 2 + 7 && distBlockBallx < blockWidth / 2 + 7) {
+            if (distBlockBally < blockHeight / 2) {
               orb.angle = 180 - orb.angle;
               row1.splice(i, 1);
             }
@@ -188,10 +192,10 @@ function WholeGame() {
 
         for (var i = 0; i < row2.length; i++) {
           var row = row2[i];
-          let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
-          let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
-          if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
-            if (distBlockBally < 37.5) {
+          let distBlockBallx = Math.abs(orb.x - row.x - blockWidth / 2)
+          let distBlockBally = Math.abs(orb.y - row.y - blockHeight / 2)
+          if (distBlockBally < blockHeight / 2 + 7 && distBlockBallx < blockWidth / 2 + 7) {
+            if (distBlockBally < blockHeight / 2) {
               orb.angle = 180 - orb.angle;
               row2.splice(i, 1);
             }
@@ -205,10 +209,10 @@ function WholeGame() {
 
         for (var i = 0; i < row3.length; i++) {
           var row = row3[i];
-          let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
-          let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
-          if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
-            if (distBlockBally < 37.5) {
+          let distBlockBallx = Math.abs(orb.x - row.x - blockWidth / 2)
+          let distBlockBally = Math.abs(orb.y - row.y - blockHeight / 2)
+          if (distBlockBally < blockHeight / 2 + 7 && distBlockBallx < blockWidth / 2 + 7) {
+            if (distBlockBally < blockHeight / 2) {
               orb.angle = 180 - orb.angle;
               row3.splice(i, 1);
             }
@@ -221,10 +225,10 @@ function WholeGame() {
 
         for (var i = 0; i < row4.length; i++) {
           var row = row4[i];
-          let distBlockBallx = Math.abs(orb.x - row.x - 125 / 2)
-          let distBlockBally = Math.abs(orb.y - row.y - 75 / 2)
-          if (distBlockBally < 37.5 + 7 && distBlockBallx < 62.5 + 7) {
-            if (distBlockBally < 37.5) {
+          let distBlockBallx = Math.abs(orb.x - row.x - blockWidth / 2)
+          let distBlockBally = Math.abs(orb.y - row.y - blockHeight / 2)
+          if (distBlockBally < blockHeight / 2 + 7 && distBlockBallx < blockWidth / 2 + 7) {
+            if (distBlockBally < blockHeight / 2) {
               orb.angle = 180 - orb.angle;
               row4.splice(i, 1);
             }
